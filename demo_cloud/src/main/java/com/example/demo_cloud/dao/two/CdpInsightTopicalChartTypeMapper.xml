@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo_cloud.dao.two.CdpInsightTopicalChartTypeMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo_cloud.dao.entity.CdpInsightTopicalChartType">
+    <id column="insight_id" jdbcType="VARCHAR" property="insightId" />
+    <result column="insight_title" jdbcType="VARCHAR" property="insightTitle" />
+    <result column="tagdetail_cnt" jdbcType="VARCHAR" property="tagdetailCnt" />
+    <result column="chart_type" jdbcType="VARCHAR" property="chartType" />
+    <result column="module_type" jdbcType="VARCHAR" property="moduleType" />
+    <result column="module_name" jdbcType="VARCHAR" property="moduleName" />
+    <result column="pos_indx" jdbcType="INTEGER" property="posIndx" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cdp_insight_topical_chart_type
+    where insight_id = #{insightId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo_cloud.dao.entity.CdpInsightTopicalChartType">
+    insert into cdp_insight_topical_chart_type (insight_id, insight_title, tagdetail_cnt, 
+      chart_type, module_type, module_name, 
+      pos_indx)
+    values (#{insightId,jdbcType=VARCHAR}, #{insightTitle,jdbcType=VARCHAR}, #{tagdetailCnt,jdbcType=VARCHAR}, 
+      #{chartType,jdbcType=VARCHAR}, #{moduleType,jdbcType=VARCHAR}, #{moduleName,jdbcType=VARCHAR}, 
+      #{posIndx,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo_cloud.dao.entity.CdpInsightTopicalChartType">
+    update cdp_insight_topical_chart_type
+    set insight_title = #{insightTitle,jdbcType=VARCHAR},
+      tagdetail_cnt = #{tagdetailCnt,jdbcType=VARCHAR},
+      chart_type = #{chartType,jdbcType=VARCHAR},
+      module_type = #{moduleType,jdbcType=VARCHAR},
+      module_name = #{moduleName,jdbcType=VARCHAR},
+      pos_indx = #{posIndx,jdbcType=INTEGER}
+    where insight_id = #{insightId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select insight_id, insight_title, tagdetail_cnt, chart_type, module_type, module_name, 
+    pos_indx
+    from cdp_insight_topical_chart_type
+    where insight_id = #{insightId,jdbcType=VARCHAR}
+  </select>
+</mapper>

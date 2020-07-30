@@ -1,5 +1,6 @@
 package com.example.demo_cloud.dto.vo;
 
+import com.example.demo_cloud.util.Tool;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,20 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class TableInfo {
+
+	public TableInfo() {
+	}
+
+	public TableInfo(String tableName, String convertName, String tableComment, List<TableColumn> columnList) {
+		this.tableName = tableName;
+		this.convertName = convertName;
+		this.tableComment = tableComment;
+		this.columnList = columnList;
+
+		this.className = Tool.upperFirstChar(convertName);
+		this.mappingPath = Tool.mappingPath(tableName);
+	}
 
 	String tableName;
 	/**
@@ -21,6 +34,17 @@ public class TableInfo {
 	String tableComment;
 
 	List<TableColumn> columnList = new ArrayList<>();
+
+
+	String className;
+
+	String mappingPath;
+
+	TableColumn primaryColumn;
+
+	List<TableColumn> uniqueColumns;
+
+
 
 }
 

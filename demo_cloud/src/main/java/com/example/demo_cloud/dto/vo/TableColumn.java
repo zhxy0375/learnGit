@@ -16,7 +16,7 @@ public class TableColumn {
 	/**
 	 * 格式 化后的名称
 	 */
-	String convertType;
+	String javaType;
 
 	String length;
 

@@ -1,7 +1,11 @@
 package com.example.demo_cloud.dto.vo;
 
+import cn.hutool.core.collection.CollectionUtil;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -13,13 +17,14 @@ public class TableIndex {
 
 	boolean unique;
 
-	String params;
+	List<String> columns;
 
-	public void addParams(String param) {
-		if (StringUtils.isBlank(params)) {
-			params = param;
+	public void addParams(String column) {
+		if (CollectionUtil.isEmpty(columns)) {
+			columns = new ArrayList<>();
+			columns.add(column);
 		} else {
-			params = params + "," + param;
+			columns.add(column);
 		}
 	}
 }

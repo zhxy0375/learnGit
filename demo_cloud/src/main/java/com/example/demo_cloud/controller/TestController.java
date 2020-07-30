@@ -9,13 +9,11 @@ import com.example.demo_cloud.dto.res.JsonResult;
 import com.example.demo_cloud.service.MySqlDbService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/test")
@@ -54,9 +52,9 @@ public class TestController {
 	}
 
 	@PostMapping("/db/parse")
-	public Object parseDb(){
-		Object object = mySqlDbService.parseDb();;
-		return new JsonResult(object);
+	public Object parseDb(@RequestBody List<String> tableNames){
+		  mySqlDbService.genJavaFiles(tableNames);;
+		return new JsonResult("");
 	}
 	
 }

@@ -6,8 +6,10 @@ import com.example.demo_cloud.dao.entity.PageTemplet;
 import com.example.demo_cloud.dao.one.PageTempletMapper;
 import com.example.demo_cloud.dao.two.CdpInsightTopicalChartTypeMapper;
 import com.example.demo_cloud.dto.res.JsonResult;
+import com.example.demo_cloud.service.MySqlDbService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +31,10 @@ public class TestController {
 	@Autowired
 	private ValueConfig valueConfig;
 
-	@PostMapping("/config")
+	@Autowired
+	private MySqlDbService mySqlDbService;
+
+	@GetMapping("/config")
 	public Object testConfig(){
 		log.info("jdbc:{}",valueConfig.getJdbcUrl());
 		return new HashMap<>();
@@ -46,6 +51,12 @@ public class TestController {
 	public Object testDbTwo(){
 		CdpInsightTopicalChartType cht = chartTypeMapper.selectByPrimaryKey("dc1");
 		return new JsonResult(cht);
+	}
+
+	@PostMapping("/db/parse")
+	public Object parseDb(){
+		Object object = mySqlDbService.parseDb();;
+		return new JsonResult(object);
 	}
 	
 }

@@ -35,12 +35,16 @@ public class TableInfo {
 
 	List<TableColumn> columnList = new ArrayList<>();
 
+	/**
+	 * 基础包路径
+	 */
+	String basePackage = "com.bl.dj";
 
 	String className;
 
 	String mappingPath;
 
-	TableColumn primaryColumn;
+	List<TableColumn> primaryColumns;
 
 	List<TableColumn> uniqueColumns;
 

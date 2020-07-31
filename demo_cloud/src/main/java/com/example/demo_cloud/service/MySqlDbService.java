@@ -45,12 +45,12 @@ public class MySqlDbService {
 				List<TableColumn> columns = new ArrayList<>();
 				// 注释信息(COMMENT)时,发现返回的REMARKS字段返回居然是null.在数据连接url中添加了两个参数characterEncoding=utf8和useInformationSchema=true
 				TableInfo table = new TableInfo(tableName, Tool.lineToHump(tableName), tableRs.getString("REMARKS"), columns);
-				String primaryColumn = null;
+				List<String> primaryColumnList = new ArrayList<>();//主键 可能是组合主键
 				ResultSet idxRs = metaData.getIndexInfo(connection.getCatalog(), connection.getCatalog(), tableName, false, false);
 				while (idxRs.next()) {
 					String indexName = idxRs.getString("INDEX_NAME");
 					if ("PRIMARY".equals(indexName)) {
-						primaryColumn = idxRs.getString("COLUMN_NAME");
+						primaryColumnList.add(idxRs.getString("COLUMN_NAME"));
 						continue;
 					}
 					List<TableIndex > exist = unqueIndices.stream().filter(o -> o.getTableName().equals(tableName) && o.getIndexName().equals(indexName)).collect(Collectors.toList());
@@ -84,12 +84,15 @@ public class MySqlDbService {
 					column.setLength(columnRs.getString("COLUMN_SIZE"));
 					column.setDecimalDigits(columnRs.getString("DECIMAL_DIGITS"));
 					column.setNotNull(!columnRs.getBoolean("NULLABLE"));
-					column.setPrimary(column.getName().equals(primaryColumn));
+					column.setPrimary(primaryColumnList.contains(column.getName()));
 					column.setComment(columnRs.getString("REMARKS"));
 					columns.add(column);
 
-					if(StrUtil.isNotBlank(primaryColumn) && primaryColumn.equalsIgnoreCase(columnName)){
-						table.setPrimaryColumn(column);
+					if(column.isPrimary()){
+						if(table.getPrimaryColumns()  == null){
+							table.setPrimaryColumns(new ArrayList<>());
+						}
+						table.getPrimaryColumns().add(column);
 					}
 					if(CollectionUtil.isNotEmpty(unqueIndices) && unqueIndices.get(0).getColumns().contains(columnName)){
 						if(table.getUniqueColumns() == null){
@@ -121,6 +124,9 @@ public class MySqlDbService {
 		for (TableInfo tt:tables) {
 			//把获得的信息写入到指定模板内，开始生成实体类
 			freeMarkerUtil.createFile("entity.ftl", url+tt.getClassName()+".java",tt);
+			freeMarkerUtil.createFile("service.ftl", url+tt.getClassName()+"Service.java",tt);
+			freeMarkerUtil.createFile("mapper.ftl", url+tt.getClassName()+"Mapper.java",tt);
+			freeMarkerUtil.createFile("mapper.xml.ftl", url+tt.getClassName()+"Mapper.xml",tt);
 		}
 	}
 

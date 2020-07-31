@@ -1,31 +1,90 @@
-package com.bdqn.service;
+package ${tableInfo.basePackage}.service;
 
-import com.bdqn.dao.${tableInfo.tableClassName}Mapper;
-import com.bdqn.pojo.${tableInfo.tableClassName};
+import ${tableInfo.basePackage}.mapper.${tableInfo.className}Mapper;
+import ${tableInfo.basePackage}.entity.${tableInfo.className};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+/**
+* ${tableInfo.tableComment} service
+*/
 @Service
-public class ${tableInfo.tableClassName}Service {
-@Autowired(required = false)
-private ${tableInfo.tableClassName}Mapper ${tableInfo.tableName}Mapper;
+public class ${tableInfo.className}Service {
+    @Autowired
+    private ${tableInfo.className}Mapper ${tableInfo.convertName}Mapper;
 
-public ${tableInfo.tableClassName}Mapper get${tableInfo.tableClassName}Mapper() {
-return ${tableInfo.tableName}Mapper;
-}
+    public int insert(${tableInfo.className} ${tableInfo.convertName}){
+        return ${tableInfo.convertName}Mapper.insert(${tableInfo.convertName});
+    }
 
-public void set${tableInfo.tableClassName}Mapper(${tableInfo.tableClassName}Mapper ${tableInfo.tableClassName}Mapper) {
-this.${tableInfo.tableName}Mapper = ${tableInfo.tableName}Mapper;
-}
+    public List<${tableInfo.className}> selectList(${tableInfo.className} ${tableInfo.convertName}){
+        return ${tableInfo.convertName}Mapper.selectList(${tableInfo.convertName});
+    }
+<#--
+<#if tableInfo.primaryColumn??>
+    <#assign primary = tableInfo.primaryColumn >
+    public ${tableInfo.className} selectByPrimaryKey(${primary.javaType} ${primary.convertName}){
+        return ${tableInfo.convertName}Mapper.selectByPrimaryKey(${primary.convertName});
+    }
 
-public List<${tableInfo.tableClassName}> findAll${tableInfo.tableClassName}(){return ${tableInfo.tableName}Mapper.findAll${tableInfo.tableClassName}();}
+    public int updateByPrimaryKey(${primary.javaType} ${primary.convertName}){
+        return ${tableInfo.convertName}Mapper.updateByPrimaryKey(${primary.convertName});
+    }
 
-public List<${tableInfo.tableClassName}> find${tableInfo.tableClassName}ById(int id){return ${tableInfo.tableName}Mapper.find${tableInfo.tableClassName}ById(id);}
+    public int deleteByPrimaryKey(${primary.javaType} ${primary.convertName}){
+        return ${tableInfo.convertName}Mapper.deleteByPrimaryKey(${primary.convertName});
+    }
+<#else>
+    public int update(${tableInfo.className} ${tableInfo.convertName}){
+        return ${tableInfo.convertName}Mapper.insert(${tableInfo.convertName});
+    }
 
-public int add${tableInfo.tableClassName}(${tableInfo.tableClassName} ${tableInfo.tableName}){return ${tableInfo.tableName}Mapper.add${tableInfo.tableClassName}(${tableInfo.tableName});}
+    public int delete(${tableInfo.className} ${tableInfo.convertName}){
+        return ${tableInfo.convertName}Mapper.insert(${tableInfo.convertName});
+    }
+</#if>-->
+<#if tableInfo.uniqueColumns??&&(tableInfo.uniqueColumns?size > 0)>
+    <#assign prKeys = tableInfo.uniqueColumns>
+    <#assign primaryParamDef><#list prKeys as item><#if item_has_next>${item.javaType} ${item.convertName},<#else >${item.javaType} ${item.convertName}</#if></#list></#assign>
+    <#assign primaryParam><#list prKeys as item><#if item_has_next>${item.convertName},<#else >${item.convertName}</#if></#list></#assign>
 
-public int del${tableInfo.tableClassName}ById(int id){return ${tableInfo.tableName}Mapper.del${tableInfo.tableClassName}ById(id);}
+    public ${tableInfo.className} selectByPrimaryKey(${primaryParamDef}){
+        return ${tableInfo.convertName}Mapper.selectByPrimaryKey(${primaryParam});
+    }
 
-public int update${tableInfo.tableClassName}(${tableInfo.tableClassName} ${tableInfo.tableName}){return ${tableInfo.tableName}Mapper.update${tableInfo.tableClassName}(${tableInfo.tableName});}
+    public int updateByPrimaryKey(${primaryParamDef}){
+        return ${tableInfo.convertName}Mapper.updateByPrimaryKey(${primaryParam});
+    }
+
+    public int deleteByPrimaryKey(${primaryParamDef}){
+    return ${tableInfo.convertName}Mapper.deleteByPrimaryKey(${primaryParam});
+    }
+<#else>
+    public int update(${tableInfo.className} ${tableInfo.convertName}){
+        return ${tableInfo.convertName}Mapper.insert(${tableInfo.convertName});
+    }
+
+    public int delete(${tableInfo.className} ${tableInfo.convertName}){
+        return ${tableInfo.convertName}Mapper.insert(${tableInfo.convertName});
+    }
+</#if>
+
+<#if tableInfo.uniqueColumns??&&(tableInfo.uniqueColumns?size > 0)>
+<#assign unKeys = tableInfo.uniqueColumns>
+<#assign ukParamDef><#list unKeys as item><#if item_has_next>${item.javaType} ${item.convertName},<#else >${item.javaType} ${item.convertName}</#if></#list></#assign>
+<#assign ukParam><#list unKeys as item><#if item_has_next>${item.convertName},<#else >${item.convertName}</#if></#list></#assign>
+    public ${tableInfo.className} selectByUniqueKey(${ukParamDef}){
+        return ${tableInfo.convertName}Mapper.updateByUniqueKey(${ukParam});
+    }
+
+    public int updateByUniqueKey(${ukParamDef}){
+        return ${tableInfo.convertName}Mapper.updateByUniqueKey(${ukParam});
+    }
+
+    public int deleteByUniqueKey(${ukParamDef}){
+        return ${tableInfo.convertName}Mapper.deleteByUniqueKey(${ukParam});
+    }
+</#if>
+
 }

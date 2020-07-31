@@ -1,8 +1,11 @@
-package com.bdqn.pojo;
+package ${tableInfo.basePackage}.entity;
 import java.util.Date;
 import java.io.Serializable;
 import lombok.Data;
 
+/**
+* ${tableInfo.tableComment} entity
+*/
 @Data
 public class ${tableInfo.className} implements Serializable{
 <#list tableInfo.columnList as item>

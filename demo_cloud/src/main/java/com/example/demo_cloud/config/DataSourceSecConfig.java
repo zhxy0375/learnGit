@@ -22,6 +22,7 @@ import javax.sql.DataSource;
 public class DataSourceSecConfig {
 	// 精确到 master 目录，以便跟其他数据源隔离
 	static final String PACKAGE = "com.example.demo_cloud.dao.two";
+	static final String ENTITY_PACKAGE = "com.example.demo_cloud.dao.entity";
 
 	/*classpath：只会到你的class路径中查找找文件;
 	classpath*：不仅包含class路径，还包括jar文件中(class路径)进行查找*/
@@ -48,6 +49,7 @@ static final String MAPPER_LOCATION = "classpath*:com/example/demo_cloud/dao/two
 		sessionFactory.setDataSource(dataSource);
 		sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
 				.getResources(DataSourceSecConfig.MAPPER_LOCATION));
+		sessionFactory.setTypeAliasesPackage(ENTITY_PACKAGE);
 		return sessionFactory.getObject();
 	}
 

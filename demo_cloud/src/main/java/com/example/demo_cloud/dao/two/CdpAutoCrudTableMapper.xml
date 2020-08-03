@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo_cloud.dao.two.CdpAutoCrudTableMapper">
+
+    <resultMap type="com.example.demo_cloud.dao.entity.CdpAutoCrudTable" id="CdpAutoCrudTableResult">
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="unKey1" column="un_key1"/>
+        <result property="unKey2" column="un_key2"/>
+        <result property="cDate" column="c_date"/>
+    </resultMap>
+
+    <!--查询基本字段-->
+    <sql id="basicFieldVo">
+        select code,name,un_key1,un_key2,c_date from cdp_auto_crud_table
+    </sql>
+
+    <!--查询 列表-->
+    <select id="selectList" parameterType="com.example.demo_cloud.dao.entity.CdpAutoCrudTable" resultMap="CdpAutoCrudTableResult">
+        <include refid="basicFieldVo"/>
+        <where>
+            <if test="code != null"> and code = #{code}</if>
+            <if test="name != null  and name != ''"> and name = #{name}</if>
+            <if test="unKey1 != null  and unKey1 != ''"> and un_key1 = #{unKey1}</if>
+            <if test="unKey2 != null  and unKey2 != ''"> and un_key2 = #{unKey2}</if>
+            <if test="cDate != null"> and c_date = #{cDate}</if>
+        </where>
+    </select>
+    <!--插入 -->
+    <insert id="insert" parameterType="com.example.demo_cloud.dao.entity.CdpAutoCrudTable">
+        insert into cdp_auto_crud_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">code,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="unKey1 != null  and unKey1 != ''">un_key1,</if>
+            <if test="unKey2 != null  and unKey2 != ''">un_key2,</if>
+            <if test="cDate != null">c_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">#{code},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="unKey1 != null  and unKey1 != ''">#{unKey1},</if>
+            <if test="unKey2 != null  and unKey2 != ''">#{unKey2},</if>
+            <if test="cDate != null">#{cDate},</if>
+        </trim>
+    </insert>
+
+    <select id="selectByPrimaryKey" parameterType="map" resultMap="CdpAutoCrudTableResult">
+        <include refid="basicFieldVo"/>
+        <where>
+            <if test="code != null"> and code = #{code}</if>
+            <if test="name != null  and name != ''"> and name = #{name}</if>
+        </where>
+    </select>
+    <!--更新 -->
+    <update id="updateByPrimaryKey" parameterType="com.example.demo_cloud.dao.entity.CdpAutoCrudTable">
+        update cdp_auto_crud_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null"> code = #{code},</if>
+            <if test="name != null  and name != ''">  name = #{name},</if>
+            <if test="unKey1 != null  and unKey1 != ''">  un_key1 = #{unKey1},</if>
+            <if test="unKey2 != null  and unKey2 != ''">  un_key2 = #{unKey2},</if>
+            <if test="cDate != null"> c_date = #{cDate},</if>
+        </trim>
+        <where>
+            <if test="code != null"> and code = #{code}</if>
+            <if test="name != null  and name != ''"> and name = #{name}</if>
+        </where>
+    </update>
+    <!--删除 -->
+    <delete id="deleteByPrimaryKey">
+        delete from cdp_auto_crud_table
+        <where>
+            <if test="code != null"> and code = #{code}</if>
+            <if test="name != null  and name != ''"> and name = #{name}</if>
+        </where>
+    </delete>
+
+    <select id="selectByUniqueKey"  resultMap="CdpAutoCrudTableResult">
+        <include refid="basicFieldVo"/>
+        <where>
+            <if test="unKey1 != null and unKey1 != ''"> and un_key1 = #{unKey1}</if>
+            <if test="unKey2 != null and unKey2 != ''"> and un_key2 = #{unKey2}</if>
+        </where>
+    </select>
+    <!--更新-->
+    <update id="updateByUniqueKey" parameterType="com.example.demo_cloud.dao.entity.CdpAutoCrudTable">
+        update cdp_auto_crud_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null">code = #{code},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="unKey1 != null and unKey1 != ''">un_key1 = #{unKey1},</if>
+            <if test="unKey2 != null and unKey2 != ''">un_key2 = #{unKey2},</if>
+            <if test="cDate != null">c_date = #{cDate},</if>
+        </trim>
+        <where>
+            <if test="unKey1 != null and unKey1 != ''"> and un_key1 = #{unKey1}</if>
+            <if test="unKey2 != null and unKey2 != ''"> and un_key2 = #{unKey2}</if>
+        </where>
+    </update>
+    <!--删除 -->
+    <delete id="deleteByUniqueKey">
+        delete from cdp_auto_crud_table
+        <where>
+            <if test="unKey1 != null and unKey1 != ''"> and un_key1 = #{unKey1}</if>
+            <if test="unKey2 != null and unKey2 != ''"> and un_key2 = #{unKey2}</if>
+        </where>
+    </delete>
+</mapper>

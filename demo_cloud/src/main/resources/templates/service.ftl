@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
-* ${tableInfo.tableComment} service
+* 类描述：${tableInfo.tableComment} service
+* 创建时间：${.now?string["yyyyMMdd"]}
+* 作者：${tableInfo.author}
 */
 @Service
 public class ${tableInfo.className}Service {
@@ -21,6 +23,13 @@ public class ${tableInfo.className}Service {
     public List<${tableInfo.className}> selectList(${tableInfo.className} ${tableInfo.convertName}){
         return ${tableInfo.convertName}Mapper.selectList(${tableInfo.convertName});
     }
+    /**
+    * 分页查询
+    */
+    public List<${tableInfo.className}> selectPage(${tableInfo.className} ${tableInfo.convertName}){
+        return ${tableInfo.convertName}Mapper.selectList(${tableInfo.convertName});
+    }
+
 <#--
 <#if tableInfo.primaryColumn??>
     <#assign primary = tableInfo.primaryColumn >
@@ -53,8 +62,8 @@ public class ${tableInfo.className}Service {
         return ${tableInfo.convertName}Mapper.selectByPrimaryKey(${primaryParam});
     }
 
-    public int updateByPrimaryKey(${primaryParamDef}){
-        return ${tableInfo.convertName}Mapper.updateByPrimaryKey(${primaryParam});
+    public int updateByPrimaryKey(${tableInfo.className} ${tableInfo.convertName}){
+        return ${tableInfo.convertName}Mapper.updateByPrimaryKey(${tableInfo.convertName});
     }
 
     public int deleteByPrimaryKey(${primaryParamDef}){
@@ -62,11 +71,11 @@ public class ${tableInfo.className}Service {
     }
 <#else>
     public int update(${tableInfo.className} ${tableInfo.convertName}){
-        return ${tableInfo.convertName}Mapper.insert(${tableInfo.convertName});
+        return ${tableInfo.convertName}Mapper.update(${tableInfo.convertName});
     }
 
     public int delete(${tableInfo.className} ${tableInfo.convertName}){
-        return ${tableInfo.convertName}Mapper.insert(${tableInfo.convertName});
+        return ${tableInfo.convertName}Mapper.delete(${tableInfo.convertName});
     }
 </#if>
 
@@ -75,11 +84,11 @@ public class ${tableInfo.className}Service {
 <#assign ukParamDef><#list unKeys as item><#if item_has_next>${item.javaType} ${item.convertName},<#else >${item.javaType} ${item.convertName}</#if></#list></#assign>
 <#assign ukParam><#list unKeys as item><#if item_has_next>${item.convertName},<#else >${item.convertName}</#if></#list></#assign>
     public ${tableInfo.className} selectByUniqueKey(${ukParamDef}){
-        return ${tableInfo.convertName}Mapper.updateByUniqueKey(${ukParam});
+        return ${tableInfo.convertName}Mapper.selectByUniqueKey(${ukParam});
     }
 
-    public int updateByUniqueKey(${ukParamDef}){
-        return ${tableInfo.convertName}Mapper.updateByUniqueKey(${ukParam});
+    public int updateByUniqueKey(${tableInfo.className} ${tableInfo.convertName}){
+        return ${tableInfo.convertName}Mapper.updateByUniqueKey(${tableInfo.convertName});
     }
 
     public int deleteByUniqueKey(${ukParamDef}){

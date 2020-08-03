@@ -71,6 +71,7 @@ public class MySqlDbService {
 					}
 				}
 
+				List<String> columnJson = new ArrayList<>();
 				ResultSet columnRs = metaData.getColumns(connection.getCatalog(), connection.getCatalog(), tableName, "%");
 				while (columnRs.next()) {
 					TableColumn column = new TableColumn();
@@ -80,6 +81,12 @@ public class MySqlDbService {
 
 					column.setType(columnRs.getString("TYPE_NAME"));
 					column.setJavaType(switchToJavaType(column.getType()));
+
+					if("Boolean".equals(column.getJavaType())){
+						column.setGetterName("is"+Tool.upperFirstChar(column.getConvertName()));
+					}else {
+						column.setGetterName("get"+Tool.upperFirstChar(column.getConvertName()));
+					}
 
 					column.setLength(columnRs.getString("COLUMN_SIZE"));
 					column.setDecimalDigits(columnRs.getString("DECIMAL_DIGITS"));
@@ -103,7 +110,17 @@ public class MySqlDbService {
 							table.getUniqueColumns().add(column);
 						}
 					}
+
+					if("Long".equals(column.getJavaType()) || "Integer".equals(column.getJavaType()) || "BigDecimal".equals(column.getJavaType())){
+						columnJson.add("\""+ column.getConvertName()+"\":0");
+					}else if("Boolean".equals(column.getJavaType()) ){
+						columnJson.add("\""+ column.getConvertName()+"\":false");
+					}else {
+						columnJson.add("\""+ column.getConvertName()+"\":\"str\"");
+					}
 				}
+
+				table.setEntityJson("{" + String.join(",",columnJson) +"}");
 				tables.add(table);
 			}
 		}
@@ -127,6 +144,7 @@ public class MySqlDbService {
 			freeMarkerUtil.createFile("service.ftl", url+tt.getClassName()+"Service.java",tt);
 			freeMarkerUtil.createFile("mapper.ftl", url+tt.getClassName()+"Mapper.java",tt);
 			freeMarkerUtil.createFile("mapper.xml.ftl", url+tt.getClassName()+"Mapper.xml",tt);
+			freeMarkerUtil.createFile("controller.ftl", url+tt.getClassName()+"Controller.java",tt);
 		}
 	}
 

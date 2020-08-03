@@ -8,7 +8,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
-* ${tableInfo.tableComment} Mapper
+* 类描述：${tableInfo.tableComment} Mapper
+* 创建时间：${.now?string["yyyyMMdd"]}
+* 作者：${tableInfo.author}
 */
 public interface ${tableInfo.className}Mapper {
 
@@ -48,7 +50,7 @@ public interface ${tableInfo.className}Mapper {
 <#assign ukParamDef><#list unKeys as item><#if item_has_next>@Param("${item.convertName}") ${item.javaType} ${item.convertName},<#else >@Param("${item.convertName}") ${item.javaType} ${item.convertName}</#if></#list></#assign>
     ${tableInfo.className} selectByUniqueKey(${ukParamDef});
 
-    int updateByUniqueKey(${ukParamDef});
+    int updateByUniqueKey(${tableInfo.className} ${tableInfo.convertName});
 
     int deleteByUniqueKey(${ukParamDef});
 </#if>

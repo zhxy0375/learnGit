@@ -35,11 +35,6 @@ public class TableInfo {
 
 	List<TableColumn> columnList = new ArrayList<>();
 
-	/**
-	 * 基础包路径
-	 */
-	String basePackage = "com.bl.dj";
-
 	String className;
 
 	String mappingPath;
@@ -48,7 +43,21 @@ public class TableInfo {
 
 	List<TableColumn> uniqueColumns;
 
+	/**
+	 * 实体json串
+	 */
+	String entityJson;
 
+
+	/**
+	 * 基础包路径
+	 */
+	String basePackage = "com.bl.dj";
+	String author = "zxy09";
+	/**
+	 * controller response
+	 */
+	String responseClass = "JsonResult";
 
 }
 

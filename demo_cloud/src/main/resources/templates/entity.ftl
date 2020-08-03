@@ -4,7 +4,10 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
-* ${tableInfo.tableComment} entity
+* 类描述：${tableInfo.tableComment} entity
+* 创建时间：${.now?string["yyyyMMdd"]}
+* 作者：${tableInfo.author}
+* Entity json: ${tableInfo.entityJson}
 */
 @Data
 public class ${tableInfo.className} implements Serializable{

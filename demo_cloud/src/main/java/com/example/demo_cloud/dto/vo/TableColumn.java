@@ -27,4 +27,10 @@ public class TableColumn {
 	boolean primary;
 
 	String comment;
+
+	/**
+	 * get 方法名
+	 */
+	String getterName;
+
 }

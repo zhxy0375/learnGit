@@ -1,9 +1,6 @@
-package ${tableInfo.basePackage}.mapper;
+package ${tableInfo.mapperLocation};
 
-
-import ${tableInfo.basePackage}.entity.${tableInfo.className};
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import ${tableInfo.entityLocation}.${tableInfo.className};
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 

@@ -1,6 +1,8 @@
-package ${tableInfo.basePackage}.entity;
+package ${tableInfo.entityLocation};
 import java.util.Date;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
@@ -15,6 +17,9 @@ public class ${tableInfo.className} implements Serializable{
     /**
     * ${item.comment}
     */
+    <#if item.javaType == "Date">
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    </#if>
     private ${item.javaType} ${item.convertName};
 </#list>
 

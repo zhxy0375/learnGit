@@ -5,6 +5,7 @@ import com.example.demo_cloud.dao.entity.CdpInsightTopicalChartType;
 import com.example.demo_cloud.dao.entity.PageTemplet;
 import com.example.demo_cloud.dao.one.PageTempletMapper;
 import com.example.demo_cloud.dao.two.CdpInsightTopicalChartTypeMapper;
+import com.example.demo_cloud.dto.req.TableParseReq;
 import com.example.demo_cloud.dto.res.JsonResult;
 import com.example.demo_cloud.service.MySqlDbService;
 import lombok.extern.slf4j.Slf4j;
@@ -52,8 +53,8 @@ public class TestController {
 	}
 
 	@PostMapping("/db/parse")
-	public Object parseDb(@RequestBody List<String> tableNames){
-		  mySqlDbService.genJavaFiles(tableNames);;
+	public Object parseDb(@RequestBody TableParseReq req){
+		mySqlDbService.genJavaFiles(req);
 		return new JsonResult("");
 	}
 	

@@ -1,11 +1,12 @@
-package ${tableInfo.basePackage}.controller;
+package ${tableInfo.controllerLocation};
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.bdqn.pojo.${tableInfo.className};
-import com.bdqn.service.${tableInfo.className}Service;
+import ${tableInfo.entityLocation}.${tableInfo.className};
+import ${tableInfo.serviceLocation}.${tableInfo.className}Service;
+import ${tableInfo.responseClassPath};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
 * 类描述：${tableInfo.tableComment} controller
@@ -38,12 +39,11 @@ public class ${tableInfo.className}Controller {
         return new ${tableInfo.responseClass}(result);
     }
 
-<#if tableInfo.uniqueColumns??&&(tableInfo.uniqueColumns?size > 0)>
-    <#assign prKeys = tableInfo.uniqueColumns>
+<#if tableInfo.primaryColumns??&&(tableInfo.primaryColumns?size > 0)>
+    <#assign prKeys = tableInfo.primaryColumns>
     <#assign primaryParamDef><#list prKeys as item><#if item_has_next>${item.javaType} ${item.convertName},<#else >${item.javaType} ${item.convertName}</#if></#list></#assign>
     <#assign primaryParam><#list prKeys as item><#if item_has_next>${item.convertName},<#else >${item.convertName}</#if></#list></#assign>
     <#assign primaryGetParam><#list prKeys as item><#if item_has_next>req.${item.getterName}(),<#else >req.${item.getterName}()</#if></#list></#assign>
-
     @RequestMapping(value="/id",method = RequestMethod.GET)
     public ${tableInfo.responseClass}<${tableInfo.className}> findById(${primaryParamDef}){
         ${tableInfo.className} result = ${tableInfo.convertName}Service.selectByPrimaryKey(${primaryParam});
@@ -82,7 +82,6 @@ public class ${tableInfo.className}Controller {
 <#assign ukParamDef><#list unKeys as item><#if item_has_next>${item.javaType} ${item.convertName},<#else >${item.javaType} ${item.convertName}</#if></#list></#assign>
 <#assign ukParam><#list unKeys as item><#if item_has_next>${item.convertName},<#else >${item.convertName}</#if></#list></#assign>
     <#assign ukGetParam><#list unKeys as item><#if item_has_next>req.${item.getterName}(),<#else >req.${item.getterName}()</#if></#list></#assign>
-
     @RequestMapping(value="/uk",method = RequestMethod.GET)
     public ${tableInfo.responseClass}<${tableInfo.className}> findByUk(${ukParamDef}){
         ${tableInfo.className} result = ${tableInfo.convertName}Service.selectByUniqueKey(${ukParam});

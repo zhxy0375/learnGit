@@ -1,10 +1,13 @@
 package com.example.demo_cloud.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.example.demo_cloud.dto.req.TableParseReq;
 import com.example.demo_cloud.dto.vo.TableColumn;
 import com.example.demo_cloud.dto.vo.TableIndex;
 import com.example.demo_cloud.dto.vo.TableInfo;
+import com.example.demo_cloud.exception.DcCustomException;
 import com.example.demo_cloud.util.FreeMarkerUtil;
 import com.example.demo_cloud.util.Tool;
 import com.google.common.collect.Tables;
@@ -26,8 +29,17 @@ public class MySqlDbService {
 	@Resource(name = "secondDataSource")
 	DataSource dataSource;
 
-	public List<TableInfo> parseDb(List<String> tableNameLst){
+	public List<TableInfo> parseDb(TableParseReq req){
 		List<TableInfo> tables = new ArrayList<>();
+		if(CollectionUtil.isEmpty(req.getTableNames())){
+			throw new DcCustomException("要解析的表名列表不能为空");
+		}
+		if(StrUtil.isBlank(req.getBasePackage())){
+			throw new DcCustomException("基础包路径不能为空");
+		}
+		if(StrUtil.isBlank(req.getResponseClassPath())){
+			throw new DcCustomException("Controller response类全路径不能为空");
+		}
 
 		List<TableIndex> unqueIndices = new ArrayList<>();
 		try {
@@ -39,12 +51,14 @@ public class MySqlDbService {
 			while (tableRs.next()) {
 				String tableName = tableRs.getString("TABLE_NAME");
 
-				if(!tableNameLst.contains(tableName)){
+				if(!req.getTableNames().contains(tableName)){
 					continue;
 				}
 				List<TableColumn> columns = new ArrayList<>();
 				// 注释信息(COMMENT)时,发现返回的REMARKS字段返回居然是null.在数据连接url中添加了两个参数characterEncoding=utf8和useInformationSchema=true
 				TableInfo table = new TableInfo(tableName, Tool.lineToHump(tableName), tableRs.getString("REMARKS"), columns);
+				BeanUtil.copyProperties(req,table);
+
 				List<String> primaryColumnList = new ArrayList<>();//主键 可能是组合主键
 				ResultSet idxRs = metaData.getIndexInfo(connection.getCatalog(), connection.getCatalog(), tableName, false, false);
 				while (idxRs.next()) {
@@ -130,9 +144,9 @@ public class MySqlDbService {
 		return tables;
 	}
 
-	public  void genJavaFiles(List<String> tableNameLst) {
+	public  void genJavaFiles(TableParseReq req) {
 		//实例化此前获取表和列信息的类，并获取信息
-		List<TableInfo> tables = this.parseDb(tableNameLst);
+		List<TableInfo> tables = this.parseDb(req);
 		//实例化模板类，记得必须初始化
 		FreeMarkerUtil freeMarkerUtil=new FreeMarkerUtil();
 		freeMarkerUtil.init();

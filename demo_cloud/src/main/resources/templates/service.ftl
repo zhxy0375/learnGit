@@ -1,7 +1,7 @@
-package ${tableInfo.basePackage}.service;
+package ${tableInfo.serviceLocation};
 
-import ${tableInfo.basePackage}.mapper.${tableInfo.className}Mapper;
-import ${tableInfo.basePackage}.entity.${tableInfo.className};
+import ${tableInfo.mapperLocation}.${tableInfo.className}Mapper;
+import ${tableInfo.entityLocation}.${tableInfo.className};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -53,8 +53,8 @@ public class ${tableInfo.className}Service {
         return ${tableInfo.convertName}Mapper.insert(${tableInfo.convertName});
     }
 </#if>-->
-<#if tableInfo.uniqueColumns??&&(tableInfo.uniqueColumns?size > 0)>
-    <#assign prKeys = tableInfo.uniqueColumns>
+<#if tableInfo.primaryColumns??&&(tableInfo.primaryColumns?size > 0)>
+    <#assign prKeys = tableInfo.primaryColumns>
     <#assign primaryParamDef><#list prKeys as item><#if item_has_next>${item.javaType} ${item.convertName},<#else >${item.javaType} ${item.convertName}</#if></#list></#assign>
     <#assign primaryParam><#list prKeys as item><#if item_has_next>${item.convertName},<#else >${item.convertName}</#if></#list></#assign>
 

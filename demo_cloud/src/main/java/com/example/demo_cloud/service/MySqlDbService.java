@@ -3,12 +3,14 @@ package com.example.demo_cloud.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.druid.pool.DruidDataSource;
 import com.example.demo_cloud.dto.req.TableParseReq;
 import com.example.demo_cloud.dto.vo.TableColumn;
 import com.example.demo_cloud.dto.vo.TableIndex;
 import com.example.demo_cloud.dto.vo.TableInfo;
 import com.example.demo_cloud.exception.DcCustomException;
 import com.example.demo_cloud.util.FreeMarkerUtil;
+import com.example.demo_cloud.util.SpringBeanContextHolder;
 import com.example.demo_cloud.util.Tool;
 import com.google.common.collect.Tables;
 import lombok.extern.slf4j.Slf4j;
@@ -20,13 +22,18 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class MySqlDbService {
 
-	@Resource(name = "secondDataSource")
+	/*@Resource(name = "secondDataSource")
+	DataSource dataSource;*/
+
+	@Resource(name = "dataSource")
 	DataSource dataSource;
 
 	public List<TableInfo> parseDb(TableParseReq req){
@@ -40,6 +47,13 @@ public class MySqlDbService {
 		if(StrUtil.isBlank(req.getResponseClassPath())){
 			throw new DcCustomException("Controller response类全路径不能为空");
 		}
+
+		DruidDataSource druidDataSource = SpringBeanContextHolder.getBean("dataSource", DruidDataSource.class);
+				System.out.println("------------------------");
+		for (Map.Entry<Object, Object> entry : druidDataSource.getConnectProperties().entrySet()) {
+			System.out.println(entry.getKey()+":"+entry.getValue());
+		}
+		System.out.println("------------------------");
 
 		List<TableIndex> unqueIndices = new ArrayList<>();
 		try {
@@ -63,6 +77,9 @@ public class MySqlDbService {
 				ResultSet idxRs = metaData.getIndexInfo(connection.getCatalog(), connection.getCatalog(), tableName, false, false);
 				while (idxRs.next()) {
 					String indexName = idxRs.getString("INDEX_NAME");
+					if(StrUtil.isBlank(indexName)){
+						continue;//oracle 出现过 indexName 为null
+					}
 					if ("PRIMARY".equals(indexName)) {
 						primaryColumnList.add(idxRs.getString("COLUMN_NAME"));
 						continue;
@@ -204,6 +221,35 @@ public class MySqlDbService {
 	}
 
 
+	public static void main(String[] args) {
+		try {
+			Properties props =new Properties();
+
+			props.put("remarksReporting","true");
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+
+			String user="fms";
+			String password="fms";
+			if (user != null) {
+				props.put("user", user);
+			}
+			if (password != null) {
+				props.put("password", password);
+			}
+			Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@10.201.128.108:1521:test", props);
+			DatabaseMetaData metaData = connection.getMetaData();
+			ResultSet tableRs = metaData.getTables(connection.getCatalog(), connection.getCatalog(), "%", new String[]{"TABLE"});
+			while (tableRs.next()) {
+				String tableName = tableRs.getString("TABLE_NAME");
+				String remark = tableRs.getString("REMARKS");
+				System.out.println(tableName + "########"+remark);
+			}
+		}catch (Exception e ){
+
+		}
+
+
+	}
 
 
 }

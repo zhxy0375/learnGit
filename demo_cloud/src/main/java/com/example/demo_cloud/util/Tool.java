@@ -51,16 +51,18 @@ public class Tool {
 			return MappingSplit;
 		}
 
+		String mappingPath = "";
 		String[] mapSegAr = str.split(LineSplit);
 		if(mapSegAr.length >3){
-			return MappingSplit + mapSegAr[1] + MappingSplit +mapSegAr[2]+ MappingSplit +mapSegAr[3];
+			mappingPath = MappingSplit + mapSegAr[1] + MappingSplit +mapSegAr[2]+ MappingSplit +mapSegAr[3];
 		}else if(mapSegAr.length == 3){
-			return MappingSplit + mapSegAr[0] + MappingSplit +mapSegAr[1]+ MappingSplit +mapSegAr[2];
+			mappingPath =  MappingSplit + mapSegAr[0] + MappingSplit +mapSegAr[1]+ MappingSplit +mapSegAr[2];
 		}else if(mapSegAr.length == 2){
-			return MappingSplit + mapSegAr[0] + MappingSplit +mapSegAr[1];
+			mappingPath =  MappingSplit + mapSegAr[0] + MappingSplit +mapSegAr[1];
 		}else {
-			return MappingSplit + mapSegAr[0];
+			mappingPath =  MappingSplit + mapSegAr[0];
 		}
+		return mappingPath.toLowerCase();
 	}
 
 	/**

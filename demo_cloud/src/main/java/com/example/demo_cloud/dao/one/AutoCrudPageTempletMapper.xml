@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo_cloud.dao.one.AutoCrudPageTempletMapper">
+
+    <resultMap type="com.example.demo_cloud.dao.entity.AutoCrudPageTemplet" id="AutoCrudPageTempletResult">
+        <result property="sid" column="SID"/>
+        <result property="name" column="NAME"/>
+        <result property="channel" column="CHANNEL"/>
+        <result property="status" column="STATUS"/>
+        <result property="cBy" column="C_BY"/>
+        <result property="mBy" column="M_BY"/>
+        <result property="cTime" column="C_TIME"/>
+        <result property="mTime" column="M_TIME"/>
+        <result property="isDel" column="IS_DEL"/>
+        <result property="tempType" column="TEMP_TYPE"/>
+        <result property="numb1" column="NUMB_1"/>
+        <result property="numb3" column="NUMB_3"/>
+        <result property="numb5" column="NUMB_5"/>
+        <result property="numb10" column="NUMB_10"/>
+        <result property="numb19" column="NUMB_19"/>
+        <result property="numb38" column="NUMB_38"/>
+        <result property="time2" column="TIME_2"/>
+    </resultMap>
+
+    <!--查询基本字段-->
+    <sql id="basicFieldVo">
+        select SID,NAME,CHANNEL,STATUS,C_BY,M_BY,C_TIME,M_TIME,IS_DEL,TEMP_TYPE,NUMB_1,NUMB_3,NUMB_5,NUMB_10,NUMB_19,NUMB_38,TIME_2 from AUTO_CRUD_PAGE_TEMPLET
+    </sql>
+
+    <!--查询 列表-->
+    <select id="selectList" parameterType="com.example.demo_cloud.dao.entity.AutoCrudPageTemplet" resultMap="AutoCrudPageTempletResult">
+        <include refid="basicFieldVo"/>
+        <where>
+            <if test="sid != null"> and SID = #{sid}</if>
+            <if test="name != null  and name != ''"> and NAME = #{name}</if>
+            <if test="channel != null  and channel != ''"> and CHANNEL = #{channel}</if>
+            <if test="status != null"> and STATUS = #{status}</if>
+            <if test="cBy != null  and cBy != ''"> and C_BY = #{cBy}</if>
+            <if test="mBy != null  and mBy != ''"> and M_BY = #{mBy}</if>
+            <if test="cTime != null"> and C_TIME = #{cTime}</if>
+            <if test="mTime != null"> and M_TIME = #{mTime}</if>
+            <if test="isDel != null"> and IS_DEL = #{isDel}</if>
+            <if test="tempType != null"> and TEMP_TYPE = #{tempType}</if>
+            <if test="numb1 != null"> and NUMB_1 = #{numb1}</if>
+            <if test="numb3 != null"> and NUMB_3 = #{numb3}</if>
+            <if test="numb5 != null"> and NUMB_5 = #{numb5}</if>
+            <if test="numb10 != null"> and NUMB_10 = #{numb10}</if>
+            <if test="numb19 != null"> and NUMB_19 = #{numb19}</if>
+            <if test="numb38 != null"> and NUMB_38 = #{numb38}</if>
+            <if test="time2 != null"> and TIME_2 = #{time2}</if>
+        </where>
+    </select>
+    <!--插入 -->
+    <insert id="insert" parameterType="com.example.demo_cloud.dao.entity.AutoCrudPageTemplet">
+        insert into AUTO_CRUD_PAGE_TEMPLET
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sid != null">SID,</if>
+            <if test="name != null  and name != ''">NAME,</if>
+            <if test="channel != null  and channel != ''">CHANNEL,</if>
+            <if test="status != null">STATUS,</if>
+            <if test="cBy != null  and cBy != ''">C_BY,</if>
+            <if test="mBy != null  and mBy != ''">M_BY,</if>
+            <if test="cTime != null">C_TIME,</if>
+            <if test="mTime != null">M_TIME,</if>
+            <if test="isDel != null">IS_DEL,</if>
+            <if test="tempType != null">TEMP_TYPE,</if>
+            <if test="numb1 != null">NUMB_1,</if>
+            <if test="numb3 != null">NUMB_3,</if>
+            <if test="numb5 != null">NUMB_5,</if>
+            <if test="numb10 != null">NUMB_10,</if>
+            <if test="numb19 != null">NUMB_19,</if>
+            <if test="numb38 != null">NUMB_38,</if>
+            <if test="time2 != null">TIME_2,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sid != null">#{sid},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="channel != null  and channel != ''">#{channel},</if>
+            <if test="status != null">#{status},</if>
+            <if test="cBy != null  and cBy != ''">#{cBy},</if>
+            <if test="mBy != null  and mBy != ''">#{mBy},</if>
+            <if test="cTime != null">#{cTime},</if>
+            <if test="mTime != null">#{mTime},</if>
+            <if test="isDel != null">#{isDel},</if>
+            <if test="tempType != null">#{tempType},</if>
+            <if test="numb1 != null">#{numb1},</if>
+            <if test="numb3 != null">#{numb3},</if>
+            <if test="numb5 != null">#{numb5},</if>
+            <if test="numb10 != null">#{numb10},</if>
+            <if test="numb19 != null">#{numb19},</if>
+            <if test="numb38 != null">#{numb38},</if>
+            <if test="time2 != null">#{time2},</if>
+        </trim>
+    </insert>
+
+    <select id="selectByPrimaryKey"  resultMap="AutoCrudPageTempletResult">
+        <include refid="basicFieldVo"/>
+        <where>
+            <if test="sid != null"> and SID = #{sid}</if>
+        </where>
+    </select>
+    <!--更新 -->
+    <update id="updateByPrimaryKey" parameterType="com.example.demo_cloud.dao.entity.AutoCrudPageTemplet">
+        update AUTO_CRUD_PAGE_TEMPLET
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sid != null"> SID = #{sid},</if>
+            <if test="name != null  and name != ''">  NAME = #{name},</if>
+            <if test="channel != null  and channel != ''">  CHANNEL = #{channel},</if>
+            <if test="status != null"> STATUS = #{status},</if>
+            <if test="cBy != null  and cBy != ''">  C_BY = #{cBy},</if>
+            <if test="mBy != null  and mBy != ''">  M_BY = #{mBy},</if>
+            <if test="cTime != null"> C_TIME = #{cTime},</if>
+            <if test="mTime != null"> M_TIME = #{mTime},</if>
+            <if test="isDel != null"> IS_DEL = #{isDel},</if>
+            <if test="tempType != null"> TEMP_TYPE = #{tempType},</if>
+            <if test="numb1 != null"> NUMB_1 = #{numb1},</if>
+            <if test="numb3 != null"> NUMB_3 = #{numb3},</if>
+            <if test="numb5 != null"> NUMB_5 = #{numb5},</if>
+            <if test="numb10 != null"> NUMB_10 = #{numb10},</if>
+            <if test="numb19 != null"> NUMB_19 = #{numb19},</if>
+            <if test="numb38 != null"> NUMB_38 = #{numb38},</if>
+            <if test="time2 != null"> TIME_2 = #{time2},</if>
+        </trim>
+        <where>
+            <if test="sid != null"> and SID = #{sid}</if>
+        </where>
+    </update>
+    <!--删除 -->
+    <delete id="deleteByPrimaryKey">
+        delete from AUTO_CRUD_PAGE_TEMPLET
+        <where>
+            <if test="sid != null"> and SID = #{sid}</if>
+        </where>
+    </delete>
+
+    <select id="selectByUniqueKey"  resultMap="AutoCrudPageTempletResult">
+        <include refid="basicFieldVo"/>
+        <where>
+            <if test="sid != null"> and SID = #{sid}</if>
+            <if test="name != null and name != ''"> and NAME = #{name}</if>
+        </where>
+    </select>
+    <!--更新-->
+    <update id="updateByUniqueKey" parameterType="com.example.demo_cloud.dao.entity.AutoCrudPageTemplet">
+        update AUTO_CRUD_PAGE_TEMPLET
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sid != null">SID = #{sid},</if>
+            <if test="name != null and name != ''">NAME = #{name},</if>
+            <if test="channel != null and channel != ''">CHANNEL = #{channel},</if>
+            <if test="status != null">STATUS = #{status},</if>
+            <if test="cBy != null and cBy != ''">C_BY = #{cBy},</if>
+            <if test="mBy != null and mBy != ''">M_BY = #{mBy},</if>
+            <if test="cTime != null">C_TIME = #{cTime},</if>
+            <if test="mTime != null">M_TIME = #{mTime},</if>
+            <if test="isDel != null">IS_DEL = #{isDel},</if>
+            <if test="tempType != null">TEMP_TYPE = #{tempType},</if>
+            <if test="numb1 != null">NUMB_1 = #{numb1},</if>
+            <if test="numb3 != null">NUMB_3 = #{numb3},</if>
+            <if test="numb5 != null">NUMB_5 = #{numb5},</if>
+            <if test="numb10 != null">NUMB_10 = #{numb10},</if>
+            <if test="numb19 != null">NUMB_19 = #{numb19},</if>
+            <if test="numb38 != null">NUMB_38 = #{numb38},</if>
+            <if test="time2 != null">TIME_2 = #{time2},</if>
+        </trim>
+        <where>
+            <if test="sid != null"> and SID = #{sid}</if>
+            <if test="name != null and name != ''"> and NAME = #{name}</if>
+        </where>
+    </update>
+    <!--删除 -->
+    <delete id="deleteByUniqueKey">
+        delete from AUTO_CRUD_PAGE_TEMPLET
+        <where>
+            <if test="sid != null"> and SID = #{sid}</if>
+            <if test="name != null and name != ''"> and NAME = #{name}</if>
+        </where>
+    </delete>
+</mapper>

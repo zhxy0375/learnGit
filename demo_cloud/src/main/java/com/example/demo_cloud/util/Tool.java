@@ -82,6 +82,25 @@ public class Tool {
 		return firstC + str.substring(1);
 	}
 
+	/**
+	 * 得到 分隔符 后面的字符串
+	 * @param source
+	 * @param split 分隔符
+	 * @return
+	 */
+	public static String geStrAfterSplit(String source,String split) {
+		if( StrUtil.isNotBlank(source)){
+			int ind = source.lastIndexOf(split);
+			if(ind>0){
+				return source.substring(ind+1);
+			}else {
+				return source;
+			}
+		}
+		return source;
+	}
+
+
 	public static void main(String[] args) {
 		String lineToHump = lineToHump("f_parent_no_leader");
 		System.out.println(lineToHump);// fParentNoLeader

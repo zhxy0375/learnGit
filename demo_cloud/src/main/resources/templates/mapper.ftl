@@ -2,10 +2,16 @@ package ${tableInfo.mapperLocation};
 
 import ${tableInfo.entityLocation}.${tableInfo.className};
 import org.apache.ibatis.annotations.Param;
+
+<#if tableInfo.columnImports??&&(tableInfo.columnImports?size > 0)>
+    <#list tableInfo.columnImports as item>
+import ${item};
+    </#list>
+</#if>
 import java.util.List;
 
 /**
-* 类描述：${tableInfo.tableComment} Mapper
+* 类描述：${tableInfo.tableComment!} Mapper
 * 创建时间：${.now?string["yyyyMMdd"]}
 * 作者：${tableInfo.author}
 */

@@ -13,14 +13,19 @@ public class TableColumn {
 	 * 格式 化后的名称
 	 */
 	String convertName;
+
 	/**
-	 * 格式 化后的名称
+	 * java 全路径类型
+	 */
+	String javaImportType;
+	/**
+	 * java 类型
 	 */
 	String javaType;
 
-	String length;
+	int length;
 
-	String decimalDigits;
+	int decimalDigits;
 
 	boolean notNull;
 

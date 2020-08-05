@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -43,6 +44,10 @@ public class TableInfo {
 	List<TableColumn> primaryColumns;
 
 	List<TableColumn> uniqueColumns;
+	/**
+	 * 列 的包 导入
+	 */
+	Set<String> columnImports;
 
 	/**
 	 * 实体json串
@@ -70,13 +75,8 @@ public class TableInfo {
 	String controllerLocation;
 
 	public String getResponseClass() {
-		if(StrUtil.isBlank(responseClass) && StrUtil.isNotBlank(responseClassPath)){
-			int ind = responseClassPath.lastIndexOf(".");
-			if(ind>0){
-				responseClass = responseClassPath.substring(ind+1);
-			}else {
-				return responseClassPath;
-			}
+		if(StrUtil.isBlank(responseClass) ){
+			return Tool.geStrAfterSplit(responseClassPath,".");
 		}
 		return responseClass;
 	}

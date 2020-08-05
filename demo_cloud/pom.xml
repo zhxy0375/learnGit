@@ -153,6 +153,19 @@
     <build>
 
         <resources>
+            <!-- maven项目中resource文件夹下的文件无法编译到classpath 应该在target/classes目录下-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.ftl</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.xls</include>
+                    <include>**/*.xlsx</include>
+                </includes>
+                <filtering>false</filtering> <!-- Maven resources Filtering机制 -可以在资源文件被复制到目标目录的同时，替换其中的placeholders -->
+            </resource>
+
             <!-- 解决MyBatis配置文件不能打包到Java中问题 -->
             <resource>
                 <directory>src/main/java</directory>

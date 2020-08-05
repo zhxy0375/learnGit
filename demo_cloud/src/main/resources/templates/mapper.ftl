@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
 * 类描述：${tableInfo.tableComment!} Mapper
-* 创建时间：${.now?string["yyyyMMdd"]}
+* 创建时间：${.now?string["yyyy-MM-dd"]}
 * 作者：${tableInfo.author}
 */
 public interface ${tableInfo.className}Mapper {

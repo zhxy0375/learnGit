@@ -11,8 +11,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
+* 数据库表：${tableInfo.tableName!}
 * 类描述：${tableInfo.tableComment!} entity
-* 创建时间：${.now?string["yyyyMMdd"]}
+* 创建时间：${.now?string["yyyy-MM-dd"]}
 * 作者：${tableInfo.author}
 * Entity json: ${tableInfo.entityJson}
 */

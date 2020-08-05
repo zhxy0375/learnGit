@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
 * 类描述：${tableInfo.tableComment!} service
-* 创建时间：${.now?string["yyyyMMdd"]}
+* 创建时间：${.now?string["yyyy-MM-dd"]}
 * 作者：${tableInfo.author}
 */
 @Service

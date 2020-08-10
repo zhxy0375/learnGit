@@ -22,7 +22,7 @@
         <spring.cloud.version>Finchley.RELEASE</spring.cloud.version>
         <pelecanus-dependencies.version>2.0.0-SNAPSHOT</pelecanus-dependencies.version>
         <pelecanus.core.version>2.0.1-SNAPSHOT</pelecanus.core.version>
-
+        <pagehelper.version>5.1.4</pagehelper.version>
     </properties>
 
     <dependencies>
@@ -75,6 +75,12 @@
         </dependency>
 
 
+        <!--分页插件-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.13</version>
+        </dependency>
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>

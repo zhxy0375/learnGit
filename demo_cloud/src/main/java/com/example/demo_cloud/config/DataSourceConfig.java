@@ -5,6 +5,9 @@ package com.example.demo_cloud.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInterceptor;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -72,6 +75,21 @@ public class DataSourceConfig {
 		sessionFactory.setDataSource(dataSource);
 		sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
 				.getResources(DataSourceConfig.MAPPER_LOCATION));
+
+//		//https://pagehelper.github.io/
+//		//PageHelper 支持不同类型数据库多数据  https://www.jianshu.com/p/ac8a795fc777
+//		//mybatis分页
+//		Properties props = new Properties();
+//		props.setProperty("helperDialect", "mysql");  //注意 pageHelper 版本问题：dialect
+////		# 如果启用，当pagenum<1时，会自动查询第一页的数据，当pagenum>pages时，自动查询最后一页数据；
+////      # 不启用的，以上两种情况都会返回空数据
+//		props.setProperty("reasonable", "false");
+
+//		PageInterceptor pageHelper = new PageInterceptor();
+//		pageHelper.setProperties(props);
+//		//添加插件
+//		sessionFactory.setPlugins(new Interceptor[]{pageHelper});
+
 		return sessionFactory.getObject();
 	}
 

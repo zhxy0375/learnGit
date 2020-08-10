@@ -4,6 +4,8 @@ package com.example.demo_cloud.config;
 
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import com.github.pagehelper.PageInterceptor;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -16,6 +18,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @MapperScan(basePackages = DataSourceSecConfig.PACKAGE, sqlSessionFactoryRef = "secondSqlSessionFactory")
@@ -50,6 +53,19 @@ static final String MAPPER_LOCATION = "classpath*:com/example/demo_cloud/dao/two
 		sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
 				.getResources(DataSourceSecConfig.MAPPER_LOCATION));
 		sessionFactory.setTypeAliasesPackage(ENTITY_PACKAGE);
+
+//		//https://pagehelper.github.io/
+//		//PageHelper 支持不同类型数据库多数据  https://www.jianshu.com/p/ac8a795fc777
+//		//mybatis分页
+//		Properties props = new Properties();
+//		props.setProperty("helperDialect", "oracle");
+//		props.setProperty("reasonable", "false");
+//
+//		PageInterceptor pageHelper = new PageInterceptor();
+//		pageHelper.setProperties(props);
+//		//添加插件
+//		sessionFactory.setPlugins(new Interceptor[]{pageHelper});
+
 		return sessionFactory.getObject();
 	}
 

@@ -5,6 +5,7 @@ import ${tableInfo.serviceLocation}.${tableInfo.className}Service;
 import ${tableInfo.responseClassPath};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.github.pagehelper.PageInfo;
 
 <#if tableInfo.columnImports??&&(tableInfo.columnImports?size > 0)>
     <#list tableInfo.columnImports as item>
@@ -38,9 +39,9 @@ public class ${tableInfo.className}Controller {
         return new ${tableInfo.responseClass}(result);
     }
 
-    @RequestMapping(value="/page",method = RequestMethod.POST)
-    public ${tableInfo.responseClass} selectPage(@RequestBody ${tableInfo.className} ${tableInfo.convertName}){
-        Object result = ${tableInfo.convertName}Service.selectPage(${tableInfo.convertName});
+    @RequestMapping(value="/page/{pageNum}/{pageSize}",method = RequestMethod.POST)
+    public ${tableInfo.responseClass} selectPage(@RequestBody ${tableInfo.className} ${tableInfo.convertName},@PathVariable int pageNum, @PathVariable int pageSize){
+        PageInfo<${tableInfo.convertName}> result = ${tableInfo.convertName}Service.selectPage(${tableInfo.convertName},pageNum, pageSize);
         return new ${tableInfo.responseClass}(result);
     }
 

@@ -3,6 +3,7 @@ package com.example.demo_cloud.controller;
 import com.example.demo_cloud.dao.entity.CdpAutoCrudTable;
 import com.example.demo_cloud.service.CdpAutoCrudTableService;
 import com.example.demo_cloud.dto.res.JsonResult;
+import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +34,9 @@ public class CdpAutoCrudTableController {
         return new JsonResult(result);
     }
 
-    @RequestMapping(value="/page",method = RequestMethod.POST)
-    public JsonResult selectPage(@RequestBody CdpAutoCrudTable cdpAutoCrudTable){
-        Object result = cdpAutoCrudTableService.selectPage(cdpAutoCrudTable);
+    @RequestMapping(value="/page/{pageNum}/{pageSize}",method = RequestMethod.POST)
+    public JsonResult selectPage(@RequestBody CdpAutoCrudTable cdpAutoCrudTable,@PathVariable int pageNum, @PathVariable int pageSize){
+        Object result = cdpAutoCrudTableService.selectPage(cdpAutoCrudTable,pageNum, pageSize);
         return new JsonResult(result);
     }
 

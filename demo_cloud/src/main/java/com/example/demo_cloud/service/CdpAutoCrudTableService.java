@@ -2,6 +2,8 @@ package com.example.demo_cloud.service;
 
 import com.example.demo_cloud.dao.two.CdpAutoCrudTableMapper;
 import com.example.demo_cloud.dao.entity.CdpAutoCrudTable;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -26,8 +28,13 @@ public class CdpAutoCrudTableService {
     /**
     * 分页查询
     */
-    public List<CdpAutoCrudTable> selectPage(CdpAutoCrudTable cdpAutoCrudTable){
-        return cdpAutoCrudTableMapper.selectList(cdpAutoCrudTable);
+    public PageInfo<CdpAutoCrudTable> selectPage(CdpAutoCrudTable cdpAutoCrudTable,int pageNum, int pageSize){
+
+        //对应的lambda用法
+        PageInfo<CdpAutoCrudTable> page  = PageHelper.startPage(pageNum, pageSize).doSelectPageInfo(() -> cdpAutoCrudTableMapper.selectList(cdpAutoCrudTable));
+//        long total = PageHelper.count(() -> cdpAutoCrudTableMapper.selectList(cdpAutoCrudTable));
+        
+        return page;
     }
 
 

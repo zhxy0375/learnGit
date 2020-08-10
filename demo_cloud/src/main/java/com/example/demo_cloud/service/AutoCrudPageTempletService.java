@@ -1,7 +1,10 @@
 package com.example.demo_cloud.service;
 
+import com.example.demo_cloud.dao.entity.CdpAutoCrudTable;
 import com.example.demo_cloud.dao.one.AutoCrudPageTempletMapper;
 import com.example.demo_cloud.dao.entity.AutoCrudPageTemplet;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +32,13 @@ public class AutoCrudPageTempletService {
     /**
     * 分页查询
     */
-    public List<AutoCrudPageTemplet> selectPage(AutoCrudPageTemplet autoCrudPageTemplet){
-        return autoCrudPageTempletMapper.selectList(autoCrudPageTemplet);
+    public PageInfo<AutoCrudPageTemplet> selectPage(AutoCrudPageTemplet autoCrudPageTemplet,int pageNum, int pageSize){
+        //对应的lambda用法
+        PageInfo<AutoCrudPageTemplet> page  = PageHelper.startPage(pageNum, pageSize).doSelectPageInfo(() -> autoCrudPageTempletMapper.selectList(autoCrudPageTemplet));
+//        long total = PageHelper.count(() -> cdpAutoCrudTableMapper.selectList(cdpAutoCrudTable));
+
+        return page;
+
     }
 
 

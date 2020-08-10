@@ -3,6 +3,7 @@ package com.example.demo_cloud.controller;
 import com.example.demo_cloud.dao.entity.AutoCrudPageTemplet;
 import com.example.demo_cloud.service.AutoCrudPageTempletService;
 import com.example.demo_cloud.dto.res.JsonResult;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +36,9 @@ public class AutoCrudPageTempletController {
         return new JsonResult(result);
     }
 
-    @RequestMapping(value="/page",method = RequestMethod.POST)
-    public JsonResult selectPage(@RequestBody AutoCrudPageTemplet autoCrudPageTemplet){
-        Object result = autoCrudPageTempletService.selectPage(autoCrudPageTemplet);
+    @RequestMapping(value="/page/{pageNum}/{pageSize}",method = RequestMethod.POST)
+    public JsonResult selectPage(@RequestBody AutoCrudPageTemplet autoCrudPageTemplet,@PathVariable int pageNum, @PathVariable int pageSize){
+        PageInfo<AutoCrudPageTemplet> result = autoCrudPageTempletService.selectPage(autoCrudPageTemplet,pageNum, pageSize);
         return new JsonResult(result);
     }
 

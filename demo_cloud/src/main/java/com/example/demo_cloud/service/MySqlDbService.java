@@ -217,6 +217,7 @@ public class MySqlDbService {
 			//把获得的信息写入到指定模板内，开始生成实体类
 			freeMarkerUtil.createFile("entity.ftl", url+tt.getClassName()+".java",tt);
 			freeMarkerUtil.createFile("service.ftl", url+tt.getClassName()+"Service.java",tt);
+			freeMarkerUtil.createFile("serviceInterface.ftl", url+"I"+tt.getClassName()+"Service.java",tt);
 			freeMarkerUtil.createFile("mapper.ftl", url+tt.getClassName()+"Mapper.java",tt);
 			freeMarkerUtil.createFile("mapper.xml.ftl", url+tt.getClassName()+"Mapper.xml",tt);
 			freeMarkerUtil.createFile("controller.ftl", url+tt.getClassName()+"Controller.java",tt);

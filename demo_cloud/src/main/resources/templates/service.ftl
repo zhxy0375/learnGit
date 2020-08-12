@@ -1,8 +1,9 @@
-package ${tableInfo.serviceLocation};
+package ${tableInfo.serviceLocation}.impl;
 
 import ${tableInfo.mapperLocation}.${tableInfo.className}Mapper;
 import ${tableInfo.entityLocation}.${tableInfo.className};
 import org.springframework.beans.factory.annotation.Autowired;
+import ${tableInfo.serviceLocation}.I${tableInfo.className}Service
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -20,7 +21,7 @@ import java.util.List;
 * 作者：${tableInfo.author}
 */
 @Service
-public class ${tableInfo.className}Service {
+public class ${tableInfo.className}Service implements I${tableInfo.className}Service{
     @Autowired
     private ${tableInfo.className}Mapper ${tableInfo.convertName}Mapper;
 
@@ -32,8 +33,9 @@ public class ${tableInfo.className}Service {
         return ${tableInfo.convertName}Mapper.selectList(${tableInfo.convertName});
     }
     /**
-    * 分页查询   https://pagehelper.github.io/docs/howtouse
+    * 分页查询
     */
+<#--https://pagehelper.github.io/docs/howtouse-->
     public PageInfo<${tableInfo.className}> selectPage(${tableInfo.className} ${tableInfo.convertName},int pageNum, int pageSize){
         PageInfo<${tableInfo.className}> page  = PageHelper.startPage(pageNum, pageSize).doSelectPageInfo(() -> ${tableInfo.convertName}Mapper.selectList(${tableInfo.convertName}));
     //  long total = PageHelper.count(() -> cdpAutoCrudTableMapper.selectList(cdpAutoCrudTable));

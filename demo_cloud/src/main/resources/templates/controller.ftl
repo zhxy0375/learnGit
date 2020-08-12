@@ -41,7 +41,7 @@ public class ${tableInfo.className}Controller {
 
     @RequestMapping(value="/page/{pageNum}/{pageSize}",method = RequestMethod.POST)
     public ${tableInfo.responseClass} selectPage(@RequestBody ${tableInfo.className} ${tableInfo.convertName},@PathVariable int pageNum, @PathVariable int pageSize){
-        PageInfo<${tableInfo.convertName}> result = ${tableInfo.convertName}Service.selectPage(${tableInfo.convertName},pageNum, pageSize);
+        PageInfo<${tableInfo.className}> result = ${tableInfo.convertName}Service.selectPage(${tableInfo.convertName},pageNum, pageSize);
         return new ${tableInfo.responseClass}(result);
     }
 

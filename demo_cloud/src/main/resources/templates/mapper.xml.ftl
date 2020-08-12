@@ -75,9 +75,9 @@
         <trim prefix="SET" suffixOverrides=",">
         <#list colms as item>
         <#if item.javaType=="String">
-            <if test="${item.convertName} != null  and ${item.convertName} != ''">  ${item.name} = <#noparse>#{</#noparse>${item.convertName}},</if>
+            <if test="${item.convertName} != null  and ${item.convertName} != ''">${item.name} = <#noparse>#{</#noparse>${item.convertName}},</if>
         <#else>
-            <if test="${item.convertName} != null"> ${item.name} = <#noparse>#{</#noparse>${item.convertName}},</if>
+            <if test="${item.convertName} != null">${item.name} = <#noparse>#{</#noparse>${item.convertName}},</if>
         </#if>
         </#list>
         </trim>

@@ -29,11 +29,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MySqlDbService {
 
-	/*@Resource(name = "secondDataSource")
-	DataSource dataSource;*/
-
-	@Resource(name = "dataSource")
+	@Resource(name = "secondDataSource")
 	DataSource dataSource;
+
+//	@Resource(name = "dataSource")
+//	DataSource dataSource;
 
 	public List<TableInfo> parseDb(TableParseReq req){
 		List<TableInfo> tables = new ArrayList<>();

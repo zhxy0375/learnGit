@@ -3,11 +3,13 @@ package ${tableInfo.entityLocation};
 <#if tableInfo.columnImports??&&(tableInfo.columnImports?size > 0)>
     <#list tableInfo.columnImports as item>
 import ${item};
+<#if item == "java.util.Date">
+import com.fasterxml.jackson.annotation.JsonFormat;
+</#if>
     </#list>
 </#if>
 
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**

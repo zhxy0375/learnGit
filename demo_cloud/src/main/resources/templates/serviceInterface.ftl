@@ -1,8 +1,11 @@
 package ${tableInfo.serviceLocation};
 
 import ${tableInfo.entityLocation}.${tableInfo.className};
+<#if tableInfo.needPage>
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+</#if>
+
 
 <#if tableInfo.columnImports??&&(tableInfo.columnImports?size > 0)>
     <#list tableInfo.columnImports as item>
@@ -22,9 +25,9 @@ public interface I${tableInfo.className}Service {
     int insert(${tableInfo.className} ${tableInfo.convertName});
 
     List<${tableInfo.className}> selectList(${tableInfo.className} ${tableInfo.convertName});
-
+<#if tableInfo.needPage>
     PageInfo<${tableInfo.className}> selectPage(${tableInfo.className} ${tableInfo.convertName},int pageNum, int pageSize);
-
+</#if>
 <#if tableInfo.primaryColumns??&&(tableInfo.primaryColumns?size > 0)>
     <#assign prKeys = tableInfo.primaryColumns>
     <#assign primaryParamDef><#list prKeys as item><#if item_has_next>${item.javaType} ${item.convertName},<#else >${item.javaType} ${item.convertName}</#if></#list></#assign>

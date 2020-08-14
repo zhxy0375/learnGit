@@ -19,6 +19,7 @@ import java.util.Map;
 @Slf4j
 public class FreeMarkerUtil {
 	Configuration configuration=new Configuration(Configuration.getVersion());
+
 	//初始化方法
 	public void init(){
 		try {
@@ -30,7 +31,7 @@ public class FreeMarkerUtil {
 		}
 	}
 	//把获得的信息写入到模板中
-	public void createFile(String template, String pathname, TableInfo ll){
+	public void createFile(String template,String dir, String filename, TableInfo ll){
 
 		try {
 			Template template1=configuration.getTemplate(template);
@@ -38,6 +39,11 @@ public class FreeMarkerUtil {
 			//传入内容到模板
 			map.put("tableInfo",ll);
 
+			File dirFile = new File(dir);
+			if(!dirFile.exists()){
+				dirFile.mkdirs();
+			}
+			String pathname = dir + Tool.FileSplit + filename;
 			@Cleanup FileOutputStream fs=new FileOutputStream(pathname);
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fs);
 			template1.process(map,outputStreamWriter);

@@ -7,9 +7,13 @@ import java.util.regex.Pattern;
 
 public class Tool {
 	private static Pattern linePattern = Pattern.compile("_(\\w)");
+	/**
+	 * 文件分隔符
+	 */
+	public static String FileSplit = "/";
 
-	private static String MappingSplit = "/";
-	private static String LineSplit = "_";
+	public static String MappingSplit = "/";
+	public static String LineSplit = "_";
 
 	/** 下划线转驼峰 */
 	public static String lineToHump(String str) {

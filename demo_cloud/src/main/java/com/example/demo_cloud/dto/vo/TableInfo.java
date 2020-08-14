@@ -74,6 +74,11 @@ public class TableInfo {
 	String serviceLocation;
 	String controllerLocation;
 
+	/**
+	 * 是否需要 分页
+	 */
+	boolean needPage = true;
+
 	public String getResponseClass() {
 		if(StrUtil.isBlank(responseClass) ){
 			return Tool.geStrAfterSplit(responseClassPath,".");

@@ -3,11 +3,12 @@ package ${tableInfo.serviceLocation}.impl;
 import ${tableInfo.mapperLocation}.${tableInfo.className}Mapper;
 import ${tableInfo.entityLocation}.${tableInfo.className};
 import org.springframework.beans.factory.annotation.Autowired;
-import ${tableInfo.serviceLocation}.I${tableInfo.className}Service
+import ${tableInfo.serviceLocation}.I${tableInfo.className}Service;
 import org.springframework.stereotype.Service;
+<#if tableInfo.needPage>
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
+</#if>
 <#if tableInfo.columnImports??&&(tableInfo.columnImports?size > 0)>
     <#list tableInfo.columnImports as item>
 import ${item};
@@ -21,7 +22,7 @@ import java.util.List;
 * 作者：${tableInfo.author}
 */
 @Service
-public class ${tableInfo.className}Service implements I${tableInfo.className}Service{
+public class ${tableInfo.className}ServiceImpl implements I${tableInfo.className}Service{
     @Autowired
     private ${tableInfo.className}Mapper ${tableInfo.convertName}Mapper;
 
@@ -32,6 +33,7 @@ public class ${tableInfo.className}Service implements I${tableInfo.className}Ser
     public List<${tableInfo.className}> selectList(${tableInfo.className} ${tableInfo.convertName}){
         return ${tableInfo.convertName}Mapper.selectList(${tableInfo.convertName});
     }
+<#if tableInfo.needPage>
     /**
     * 分页查询
     */
@@ -41,7 +43,7 @@ public class ${tableInfo.className}Service implements I${tableInfo.className}Ser
     //  long total = PageHelper.count(() -> cdpAutoCrudTableMapper.selectList(cdpAutoCrudTable));
         return page;
     }
-
+</#if>
 <#--
 <#if tableInfo.primaryColumn??>
     <#assign primary = tableInfo.primaryColumn >

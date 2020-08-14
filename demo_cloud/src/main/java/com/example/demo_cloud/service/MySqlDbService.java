@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import java.io.File;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.sql.Date;
@@ -211,16 +212,30 @@ public class MySqlDbService {
 		//实例化模板类，记得必须初始化
 		FreeMarkerUtil freeMarkerUtil=new FreeMarkerUtil();
 		freeMarkerUtil.init();
+		final String FileSeparator = "/";
 		//这是创建后的实体类存放地址
-		String url="E://pojo//";
+		String entityUrl= req.getBaseDir() + req.getTableNames() + FileSeparator;
+		String mapperUrl= entityUrl;
+		String serviceUrl= mapperUrl;
+		String serviceImplUrl= mapperUrl;
+		String controllerUrl= mapperUrl;
+
+		if(req.getTableNames().size() >1){
+			entityUrl=req.getBaseDir() + "entity"+ FileSeparator;
+			mapperUrl=req.getBaseDir() + "mapper"+ FileSeparator;
+			serviceUrl=req.getBaseDir() + "service"+ FileSeparator;
+			serviceImplUrl=req.getBaseDir() + "serviceImpl"+ FileSeparator;
+			controllerUrl=req.getBaseDir() + "controller"+ FileSeparator;
+		}
+
 		for (TableInfo tt:tables) {
 			//把获得的信息写入到指定模板内，开始生成实体类
-			freeMarkerUtil.createFile("entity.ftl", url+tt.getClassName()+".java",tt);
-			freeMarkerUtil.createFile("service.ftl", url+tt.getClassName()+"Service.java",tt);
-			freeMarkerUtil.createFile("serviceInterface.ftl", url+"I"+tt.getClassName()+"Service.java",tt);
-			freeMarkerUtil.createFile("mapper.ftl", url+tt.getClassName()+"Mapper.java",tt);
-			freeMarkerUtil.createFile("mapper.xml.ftl", url+tt.getClassName()+"Mapper.xml",tt);
-			freeMarkerUtil.createFile("controller.ftl", url+tt.getClassName()+"Controller.java",tt);
+			freeMarkerUtil.createFile("entity.ftl", entityUrl,tt.getClassName()+".java",tt);
+			freeMarkerUtil.createFile("service.ftl", serviceImplUrl ,tt.getClassName()+"ServiceImpl.java",tt);
+			freeMarkerUtil.createFile("serviceInterface.ftl",serviceUrl ,"I"+tt.getClassName()+"Service.java",tt);
+			freeMarkerUtil.createFile("mapper.ftl", mapperUrl,tt.getClassName()+"Mapper.java",tt);
+			freeMarkerUtil.createFile("mapper.xml.ftl", mapperUrl,tt.getClassName()+"Mapper.xml",tt);
+			freeMarkerUtil.createFile("controller.ftl", controllerUrl,tt.getClassName()+"Controller.java",tt);
 		}
 	}
 
@@ -356,5 +371,25 @@ public class MySqlDbService {
 		System.out.println(String[].class.getTypeName());
 		System.out.println(String[].class.getCanonicalName());
 		System.out.println(String[].class.getSimpleName());
+
+		String dir="E:/pojo/";
+//		String dir="E:\\pojo\\";
+		File dirFile = new File(dir);
+		if(!dirFile.exists()){
+			System.out.println("not exist");
+		}else {
+			System.out.println("exist ...");
+		}
+
+		/*
+		 * File.pathSeparator;路径分隔符
+		 * windows中分号";",Linux中冒号":"而这个静态方法会根据系统的不同自动变换路径分隔符
+		 * File.separator;目录名称分隔符
+		 * windows中右斜杠"\",Linux中左斜杠"/"而这个静态方法会根据系统的不同自动变换目录名称分隔符
+		 */
+		String pathseparator = File.pathSeparator;
+		System.out.println("路径分隔符:" + pathseparator);
+		String separator = File.separator;
+		System.out.println("路径名称分隔符:" + separator);
 	}
 }

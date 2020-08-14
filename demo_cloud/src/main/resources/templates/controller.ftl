@@ -1,12 +1,13 @@
 package ${tableInfo.controllerLocation};
 
 import ${tableInfo.entityLocation}.${tableInfo.className};
-import ${tableInfo.serviceLocation}.${tableInfo.className}Service;
+import ${tableInfo.serviceLocation}.I${tableInfo.className}Service;
 import ${tableInfo.responseClassPath};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+<#if tableInfo.needPage>
 import com.github.pagehelper.PageInfo;
-
+</#if>
 <#if tableInfo.columnImports??&&(tableInfo.columnImports?size > 0)>
     <#list tableInfo.columnImports as item>
 import ${item};
@@ -24,7 +25,7 @@ import java.util.List;
 public class ${tableInfo.className}Controller {
 
     @Autowired
-    private ${tableInfo.className}Service ${tableInfo.convertName}Service;
+    private I${tableInfo.className}Service ${tableInfo.convertName}Service;
 
 
     @RequestMapping(value="/add",method = RequestMethod.POST)
@@ -38,12 +39,13 @@ public class ${tableInfo.className}Controller {
         List<${tableInfo.className}> result = ${tableInfo.convertName}Service.selectList(${tableInfo.convertName});
         return new ${tableInfo.responseClass}(result);
     }
-
+<#if tableInfo.needPage>
     @RequestMapping(value="/page/{pageNum}/{pageSize}",method = RequestMethod.POST)
     public ${tableInfo.responseClass} selectPage(@RequestBody ${tableInfo.className} ${tableInfo.convertName},@PathVariable int pageNum, @PathVariable int pageSize){
         PageInfo<${tableInfo.className}> result = ${tableInfo.convertName}Service.selectPage(${tableInfo.convertName},pageNum, pageSize);
         return new ${tableInfo.responseClass}(result);
     }
+</#if>
 
 <#if tableInfo.primaryColumns??&&(tableInfo.primaryColumns?size > 0)>
     <#assign prKeys = tableInfo.primaryColumns>

@@ -81,7 +81,7 @@ public class ${tableInfo.className}ServiceImpl implements I${tableInfo.className
     }
 
     public int deleteByPrimaryKey(${primaryParamDef}){
-    return ${tableInfo.convertName}Mapper.deleteByPrimaryKey(${primaryParam});
+        return ${tableInfo.convertName}Mapper.deleteByPrimaryKey(${primaryParam});
     }
 <#else>
     public int update(${tableInfo.className} ${tableInfo.convertName}){

@@ -27,7 +27,7 @@ public class ${tableInfo.className} implements Serializable{
         * ${item.comment!}
         */
         <#if item.javaType == "Date">
-            @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+        @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
         </#if>
         private ${item.javaType} ${item.convertName};
     </#list>

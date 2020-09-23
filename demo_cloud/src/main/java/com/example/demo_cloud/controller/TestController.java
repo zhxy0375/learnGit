@@ -3,6 +3,7 @@ package com.example.demo_cloud.controller;
 import com.example.demo_cloud.config.ValueConfig;
 import com.example.demo_cloud.dto.req.TableParseReq;
 import com.example.demo_cloud.dto.res.JsonResult;
+import com.example.demo_cloud.exception.DcCustomException;
 import com.example.demo_cloud.service.MySqlDbService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,14 @@ public class TestController {
 
 	@PostMapping("/db/parse")
 	public Object parseDb(@RequestBody TableParseReq req){
-		mySqlDbService.genJavaFiles(req);
+		try {
+			mySqlDbService.genJavaFiles(req);
+		}catch (DcCustomException e ){
+			return new JsonResult(e.getMessage(),false);
+		}catch (Exception e){
+			log.error("解析表异常",e);
+			return new JsonResult("解析表异常",false);
+		}
 		return new JsonResult("");
 	}
 	

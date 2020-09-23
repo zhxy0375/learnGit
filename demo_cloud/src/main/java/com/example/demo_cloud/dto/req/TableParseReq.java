@@ -1,13 +1,16 @@
 package com.example.demo_cloud.dto.req;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.example.demo_cloud.util.Tool;
+import com.google.gson.JsonObject;
 import lombok.Data;
+import net.sf.json.JSONObject;
 
 import java.util.List;
 
 @Data
-public class TableParseReq {
+public class TableParseReq extends DbConfig {
 	/**
 	 * 要解析的表名列表
 	 */
@@ -59,5 +62,13 @@ public class TableParseReq {
 
 	public void setBaseDir(String baseDir) {
 		this.baseDir = baseDir;
+	}
+
+	public static void main(String[] args) {
+		TableParseReq req = new TableParseReq();
+		System.out.println(JSONUtil.toJsonStr(req));
+
+
+
 	}
 }

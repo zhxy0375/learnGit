@@ -3,6 +3,8 @@ package com.example.demo_cloud.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.example.demo_cloud.dto.req.TableParseReq;
 import com.example.demo_cloud.dto.vo.TableColumn;
@@ -22,21 +24,65 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.*;
-import java.sql.Date;
 import java.util.*;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class MySqlDbService {
 
-	@Resource(name = "secondDataSource")
+	/*@Resource(name = "secondDataSource")
+	DataSource dataSource;*/
+
+	//oracle fms
+	@Resource(name = "dataSource")
 	DataSource dataSource;
 
-//	@Resource(name = "dataSource")
+//	@Resource(name = "tmsDataSource")
 //	DataSource dataSource;
 
+
 	public List<TableInfo> parseDb(TableParseReq req){
+
+		Connection conn = null;
+
+		if(StrUtil.isNotBlank(req.getUrl())){
+			try {
+				Class.forName(req.getDriverClass());
+			} catch (ClassNotFoundException e) {
+				throw new DcCustomException("Db驱动查找不到");
+			}
+			Properties props =new Properties();
+			props.setProperty("user", req.getUserName());
+			props.setProperty("password", req.getPassword());
+			props.setProperty("remarks", "true"); //设置可以获取remarks信息
+
+			if(StrUtil.isNotBlank(req.getProperties()) && JSONUtil.isJson(req.getProperties())){
+				JSONObject jsnObj = JSONUtil.parseObj(req.getProperties());
+				for (String key : jsnObj.keySet()) {
+					props.put(key,jsnObj.getStr(key));
+				}
+			}
+//		props.setProperty("useInformationSchema", "true");//设置可以获取tables remarks信息   mysql
+//		props.setProperty("remarksReporting", "true");//设置可以获取tables remarks信息   oracle
+//		props.setProperty("remarks", "true");//设置可以获取tables remarks信息   oracle  同上
+			try {
+				conn = DriverManager.getConnection(req.getUrl(), props);
+			} catch (SQLException throwables) {
+				throw new DcCustomException("Db创建连接失败");
+			}
+		}else {
+			try {
+				conn = dataSource.getConnection();
+			} catch (SQLException throwables) {
+				throw new DcCustomException("Db获取连接失败");
+			}
+		}
+		return parseDb(conn,req);
+	}
+
+	public List<TableInfo> parseDb(Connection connection ,TableParseReq req){
 		List<TableInfo> tables = new ArrayList<>();
 		if(CollectionUtil.isEmpty(req.getTableNames())){
 			throw new DcCustomException("要解析的表名列表不能为空");
@@ -48,17 +94,17 @@ public class MySqlDbService {
 			throw new DcCustomException("Controller response类全路径不能为空");
 		}
 
-		DruidDataSource druidDataSource = SpringBeanContextHolder.getBean("dataSource", DruidDataSource.class);
-				System.out.println("------------------------");
-		for (Map.Entry<Object, Object> entry : druidDataSource.getConnectProperties().entrySet()) {
-			System.out.println(entry.getKey()+":"+entry.getValue());
-		}
-		System.out.println("------------------------");
+//		DruidDataSource druidDataSource = SpringBeanContextHolder.getBean("dataSource", DruidDataSource.class);
+//				System.out.println("------------------------");
+//		for (Map.Entry<Object, Object> entry : druidDataSource.getConnectProperties().entrySet()) {
+//			System.out.println(entry.getKey()+":"+entry.getValue());
+//		}
+//		System.out.println("------------------------");
 
 		List<TableIndex> unqueIndices = new ArrayList<>();
 		try {
 
-			Connection connection = dataSource.getConnection();
+//			Connection connection = dataSource.getConnection();
 			DatabaseMetaData metaData = connection.getMetaData();//see: https://www.cnblogs.com/dnn179/p/DatabaseMetaData.html
 			String driverName = metaData.getDriverName();
 			ResultSet tableRs = metaData.getTables(connection.getCatalog(), connection.getCatalog(), "%", new String[]{"TABLE"});
@@ -209,12 +255,20 @@ public class MySqlDbService {
 	public  void genJavaFiles(TableParseReq req) {
 		//实例化此前获取表和列信息的类，并获取信息
 		List<TableInfo> tables = this.parseDb(req);
+		if(CollectionUtil.isEmpty(tables)){
+			throw new DcCustomException("没有找到表信息");
+		}
+
+		if(tables.size() != req.getTableNames().size()){
+			throw new DcCustomException("部分表信息缺失");
+		}
+
 		//实例化模板类，记得必须初始化
 		FreeMarkerUtil freeMarkerUtil=new FreeMarkerUtil();
 		freeMarkerUtil.init();
 		final String FileSeparator = "/";
 		//这是创建后的实体类存放地址
-		String entityUrl= req.getBaseDir() + req.getTableNames() + FileSeparator;
+		String entityUrl= req.getBaseDir() ;
 		String mapperUrl= entityUrl;
 		String serviceUrl= mapperUrl;
 		String serviceImplUrl= mapperUrl;

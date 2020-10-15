@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
 * 数据库表：${tableInfo.tableName!}
@@ -20,6 +21,7 @@ import lombok.Data;
 * Entity json: ${tableInfo.entityJson}
 */
 @Data
+@NoArgsConstructor
 public class ${tableInfo.className} implements Serializable{
 <#if tableInfo.columnList??&&(tableInfo.columnList?size > 0)>
     <#list tableInfo.columnList as item>

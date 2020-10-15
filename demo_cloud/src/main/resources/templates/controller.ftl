@@ -3,6 +3,7 @@ package ${tableInfo.controllerLocation};
 import ${tableInfo.entityLocation}.${tableInfo.className};
 import ${tableInfo.serviceLocation}.I${tableInfo.className}Service;
 import ${tableInfo.responseClassPath};
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 <#if tableInfo.needPage>
@@ -20,6 +21,7 @@ import java.util.List;
 * 创建时间：${.now?string["yyyy-MM-dd"]}
 * 作者：${tableInfo.author}
 */
+@Slf4j
 @RestController
 @RequestMapping("${tableInfo.mappingPath}")
 public class ${tableInfo.className}Controller {

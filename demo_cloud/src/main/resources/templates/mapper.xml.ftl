@@ -84,9 +84,9 @@
         <where>
         <#list prKeys as item>
         <#if item.javaType=="String">
-            <if test="${item.convertName} != null  and ${item.convertName} != ''"> and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}</if>
+            and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}
         <#else>
-            <if test="${item.convertName} != null"> and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}</if>
+             and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}
         </#if>
         </#list>
         </where>
@@ -97,9 +97,9 @@
         <where>
         <#list prKeys as item>
         <#if item.javaType=="String">
-            <if test="${item.convertName} != null  and ${item.convertName} != ''"> and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}</if>
+             and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}
         <#else>
-            <if test="${item.convertName} != null"> and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}</if>
+             and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}
         </#if>
         </#list>
         </where>
@@ -171,9 +171,9 @@
         <where>
         <#list unKeys as item>
         <#if item.javaType=="String">
-            <if test="${item.convertName} != null and ${item.convertName} != ''"> and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}</if>
+             and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}
         <#else>
-            <if test="${item.convertName} != null"> and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}</if>
+             and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}
         </#if>
         </#list>
         </where>
@@ -184,9 +184,9 @@
         <where>
         <#list unKeys as item>
         <#if item.javaType=="String">
-            <if test="${item.convertName} != null and ${item.convertName} != ''"> and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}</if>
+             and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}
         <#else>
-            <if test="${item.convertName} != null"> and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}</if>
+             and ${item.name} = <#noparse>#{</#noparse>${item.convertName}}
         </#if>
         </#list>
         </where>
